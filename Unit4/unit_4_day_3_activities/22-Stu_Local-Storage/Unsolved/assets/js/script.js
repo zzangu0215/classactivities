@@ -1,0 +1,54 @@
+var emailInput = document.querySelector('#email');
+var passwordInput = document.querySelector('#password');
+var signUpButton = document.querySelector('#sign-up');
+var msgDiv = document.querySelector('#msg');
+var userEmailSpan = document.querySelector('#user-email');
+var userPasswordSpan = document.querySelector('#user-password');
+
+function displayMessage(type, message) {
+  msgDiv.textContent = message;
+  msgDiv.setAttribute('class', type);
+}
+
+
+// declare var email and password
+// email = value of email input
+// password = value of password input
+// set email in local storgae
+// set password in local storage
+// display success message in #msg element
+// show email in #user-email
+// show password in #user-password
+
+function renderLastRegistered() {
+  // TODO: Retrieve the last email and password and render it to the page
+  var lastEmail = localStorage.getItem('email');
+  var lastPassword = localStorage.getItem('password');
+
+  if (lastEmail !== null && lastPassword != null) {
+    userEmailSpan.textContent = lastEmail;
+    userPasswordSpan.textContent = lastPassword;
+  }
+}
+
+renderLastRegistered();
+
+signUpButton.addEventListener('click', function (event) {
+  event.preventDefault();
+
+  var email = document.querySelector('#email').value;
+  var password = document.querySelector('#password').value;
+
+  if (email === '') {
+    displayMessage('error', 'Email cannot be blank');
+  } else if (password === '') {
+    displayMessage('error', 'Password cannot be blank');
+  } else {
+    displayMessage('success', 'Registered successfully');
+
+    // TODO: Save email and password to localStorage and call renderLastRegistered
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+    renderLastRegistered();
+  }
+});

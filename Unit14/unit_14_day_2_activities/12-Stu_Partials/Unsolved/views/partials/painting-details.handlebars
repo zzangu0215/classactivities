@@ -1,0 +1,17 @@
+<section class='card'>
+  <!-- TODO: Link the contents of the card to the painting page using the
+  painting ID. Set the href to link to the details page for the painting. e.g.
+  <a href="/painting/1"> will link to the details page for a painting with id =
+  1 -->
+  <a href='/painting/{{ id }}'>
+    <!-- TODO: Display the painting's title in the header -->
+    <header>{{title}}</header>
+    
+    <div class='card-body'>
+      <!-- TODO: Set the src and alt for the img element using the data for the image. -->
+      <img src='/images/{{filename}}' alt='{{description}}' />
+      {{! TODO: Add a p tag to display the artist }}
+      <p>By: {{artist}}</p>
+    </div>
+  </a>
+</section>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hot Kitchen</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="text-center">🔥 Hot Kitchen</h1>
+        <h3 class="text-center">Make your reservation</h3>
+        <hr />
+        <div class="text-center">
+          <a href="/tables">
+            <button class="btn btn-primary btn-lg">
+              <span class="fa fa-address-card"></span> View Tables
+            </button>
+          </a>
+          <a href="/">
+            <button class="btn-lg">
+              <span class="fa fa-home"></span> 
+            </button>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3><strong>Table Reservations</strong></h3>
+            </div>
+            <div class="card-body">
+              <form method="POST" role="form">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" />
+                </div>
+
+                <div class="form-group">
+                  <label for="phone-number">Phone Number (e.g. 123-456-7890)</label>
+                  <input type="text" class="form-control" id="phone-number" />
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="text" class="form-control" id="email" />
+                </div>
+
+                <div class="form-group">
+                  <label for="unique-ID">Unique ID</label>
+                  <input type="text" class="form-control" id="unique-ID" />
+                </div>
+              </form>
+              <br />
+              <div class="text-right">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-md"
+                  id="submit-btn"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      const nameEl = document.getElementById('name');
+      const phoneEl = document.getElementById('phone-number');
+      const emailEl = document.getElementById('email');
+      const idEl = document.getElementById('unique-ID');
+
+      const submitBtn = document.getElementById('submit-btn');
+
+      submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        let customerName = nameEl.value.trim();
+        let customerNumber = phoneEl.value.trim();
+        let customerEmail = emailEl.value.trim();
+        let customerID = idEl.value.trim();
+
+        let newCustomer = {
+          name: customerName,
+          phone: customerNumber,
+          email: customerEmail,
+          id: customerID,
+        };
+
+        fetch('/api/tablelists', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newCustomer),
+        })
+          .then(response => response.json())
+          .then(data => {
+            // console.log('reservations.html', data);
+            if (data) alert('You got the table! See you soon!');
+            else alert('Sorry. You are on the waitlist.');
+          })
+          .catch(err => {
+            console.log('Error: ', err);
+          })
+
+        nameEl.value = "";
+        phoneEl.value = "";
+        emailEl.value = "";
+        idEl.value = "";
+
+      })
+    </script>
+
+
+  </body>
+</html>

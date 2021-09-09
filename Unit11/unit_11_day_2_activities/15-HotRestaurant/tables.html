@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hot Kitchen|Tables</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class="text-center">🔥 HOT KITCHEN</h1>
+      <h3 class="text-center">&#x1F37D; Current Reservations and Waiting List</h3>
+      <hr />
+      <div class="text-center">
+        <a href="/reservations">
+          <button class="btn btn-danger btn-lg">
+            <span class="fa fa-credit-card"></span> Make Reservation
+          </button>
+        </a>
+        <a href="/">
+          <button class="btn-lg">
+            <span class="fa fa-home"></span> 
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>Current Reservations</h4>
+          </div>
+          <div class="card-body">
+            <ul id="tableList" class="list-group">
+              
+            </ul>
+          </div>
+        </div>
+
+        <div class="card mt-4">
+          <div class="card-header">
+            <h4>Waiting Lists</h4>
+          </div>
+          <div class="card-body">
+            <ul id="waitLists" class="list-group">
+              
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+      function getCurrReservations() {
+        const tableListEl = document.getElementById("tableList");
+        
+        fetch('/api/tables', {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+
+            for (let i=0; i<data.length; i++) {
+              const { name, phone, email, id } = data[i];
+
+              const appendBlock = `
+              <li class="list-group-item mt-4">
+                <h2>Table #${i+1}</h2>
+                <hr>
+                <h2>ID: ${id}</h2>
+                <h2>Name: ${name}</h2>
+                <h2>Email: ${email}</h2>
+                <h2>Phone: ${phone}</h2>
+              </li>
+              `;
+
+              tableListEl.insertAdjacentHTML('beforeend', appendBlock);
+            }
+          })
+      }
+
+      function getWaitingList() {
+        const waitListsEl = document.getElementById("waitLists");
+
+        fetch('/api/waitlist', {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+
+            for (let i=0; i<data.length; i++) {
+              const { name, phone, email, id } = data[i];
+
+              const appendBlock = `
+              <li class="list-group-item mt-4">
+                <h2>Table #${i+1}</h2>
+                <hr>
+                <h2>ID: ${id}</h2>
+                <h2>Name: ${name}</h2>
+                <h2>Email: ${email}</h2>
+                <h2>Phone: ${phone}</h2>
+              </li>
+              `;
+
+              waitListsEl.insertAdjacentHTML('beforeend', appendBlock);
+            }
+          })
+      }
+
+      getCurrReservations();
+      getWaitingList();
+
+    </script>
+
+    <footer class="footer mt-4">
+      <div class="container">
+        <p>Control Panel</p>
+        <p>| <a href="/api/tables">API Table Link</a> | <a href="/api/waitlist">API
+        Wait List</a>
+      </div>
+    </footer>
+
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!-- Resulting code after Instructor Demo -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Changed title -->
+    <title>jQuery UI Sortable</title>
+
+    <!-- link google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,400;0,700;1,200&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <!-- Imported our own custom stylesheet -->
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <!-- Added body content -->
+    <h1>jQuery UI Interactions - Sortable</h1>
+    <h2>What are you most excited to learn more about?</h2>
+    <div>
+      <ul id="sortable">
+        <!-- Ask the class for skills and use them to populate this list -->
+        <li class="ui-state-default">Node.js</li>
+        <li class="ui-state-default">HTML</li>
+        <li class="ui-state-default">MySQL</li>
+        <li class="ui-state-default">Express.js</li>
+        <li class="ui-state-default">NoSQL</li>
+        <li class="ui-state-default">React</li>
+        <li class="ui-state-default">JavaScript</li>
+      </ul>
+    </div>
+    <!-- Moved jQuery <script> tags -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      $(function () {
+        $("#sortable").sortable();
+        $("#sortable").disableSelection();
+      });
+    </script>
+  </body>
+</html>

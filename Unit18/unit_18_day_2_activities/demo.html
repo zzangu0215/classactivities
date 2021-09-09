@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IndexedDB Demo</title>
+  </head>
+  <body>
+    <h1>Open the console</h1>
+    <script>
+                        // create a global variable to hold a reference to the database
+            let db;
+      ​
+            // create a request for the database
+            const request = window.indexedDB.open("firstDatabase", 1);
+      ​
+            request.onupgradeneeded = (event) => {
+              console.log("upgradeneeded event");
+              const db = event.target.result;
+              const todoListStore = db.createObjectStore("todoList", {
+                keyPath: "listID",
+              });
+              todoListStore.createIndex("statusIdx", "status");
+            };
+      ​
+            // setup a listener for a successful request
+            request.onsuccess = (event) => {
+              db = request.result;
+              addItem();
+            };
+      ​
+            function addItem() {
+              // create a transaction
+              const tx = db.transaction(["todoList"], "readwrite");
+      ​
+              // get a reference to the object store
+              const todoListStore = tx.objectStore("todoList");
+      ​
+              // add some items to the store
+              todoListStore.add({
+                listID: "1",
+                status: "complete",
+                title: "add first item to the db",
+              });
+              todoListStore.add({
+                listID: "2",
+                status: "in-progress",
+                title: "add more items to the db",
+              });
+              todoListStore.add({
+                listID: "3",
+                status: "complete",
+                title: "init object store and indexes",
+              });
+              todoListStore.add({
+                listID: "4",
+                status: "backlog",
+                title: "iterate over data using a cursor",
+              });
+              getItems();
+            }
+      ​
+            function getItems() {
+              const tx = db.transaction(["todoList"], "readonly");
+      ​
+              // get a reference to the object store
+              const todoListStore = tx.objectStore("todoList");
+      ​
+              const itemRequest = todoListStore.get("1");
+              itemRequest.onsuccess = () => {
+                console.log(itemRequest.result);
+                getItemsByStatus();
+              };
+            }
+      ​
+            function getItemsByStatus() {
+              const tx = db.transaction(["todoList"], "readonly");
+      ​
+              // get a reference to the index
+              const todoListStore = tx.objectStore("todoList");
+              const statusIdx = todoListStore.index("statusIdx");
+      ​
+              const completeRequest = statusIdx.getAll("complete");
+              completeRequest.onsuccess = () => {
+                console.log(completeRequest.result);
+              };
+            }
+    </script>
+  </body>
+</html>
